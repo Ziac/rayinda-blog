@@ -7,7 +7,8 @@
 	  </div>
 		<div class="article-content">
 		  <p>
-		  <%= markdown(@post.rendered_body) %>
+      <%#= markdown(@post.rendered_body) %>  <!-- Burası markdown hisglight için gereklidir. -->
+		  <%= @post.rendered_body %>
 		  </p>
     </div>
         <div class="article-cdt">
