@@ -1,0 +1,113 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+  <title>Yeni Hayat</title>  
+  <%= stylesheet_link_tag "application" %>  
+  <%= javascript_include_tag "application" %>  
+  <%= csrf_meta_tag %>  
+</head>  
+<body>  
+	
+<div id="core">
+      <div id="header">
+        <div class="header">
+      <div class="logo"><%= link_to "Yeni Hayat Bilişim Blog", root_path%></div>
+      <div class="nav">
+        <ul>
+          <li class="<%= "selected" if params[:controller] == "main" %>"><%= link_to (t "general.homepage"), root_path%></li>
+          <li class="<%= "selected" if params[:controller] == "about" %>"><%= link_to "About", about_path %></li>
+          <li class="<%= "selected" if params[:controller] == "contact" %>"><%= link_to "Contact", contact_path %></li>
+          <% if current_user %>
+            <li class="<%= "selected" if params[:controller] == "user/dashboard" %>"><%= link_to "Dashboard", user_dashboard_path %></li>
+          <% end %>
+          <% if current_user %>
+            <li><%= link_to (t "general.logout"), log_out_path %> </li>
+          <% else %>
+            <li><%= link_to (t "general.login"), log_in_path %> </li>
+	        <% end %>
+        </ul>
+           <div class="social">
+      	<a class="rss" href="http://yenihayatblog.disqus.com/httplocalhost3000authors1posts53/latest.rss" class="dsq-subscribe-rss">RSS</a>
+        <a class="fb" href="#">Facebook</a>
+        <a class="tw" href="#">Twitter</a>
+      </div>
+      </div>
+   
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, :id => "flash#{name}" %>
+      <% end %>
+        </div>
+    </div>
+  <div class="main">
+
+		<div class="yield">
+
+      <div class="yield_middle">
+ 			<%= yield %> 
+      </div>
+
+		</div>
+    <div class="sidebar">
+
+      <div class="sidebar_middle">
+      <div class="search">
+              <h3>Search</h3>
+				<%= form_tag(search_path, :method => "get") do %>
+				  <%= text_field_tag :query, "", :class => "f", :placeholder =>"search" %>
+
+				<% end %>
+      </div>
+      <div class="topic_categories">
+        <h3><%= t "categories" %></h3>
+				<ul>
+				<% Category.all.each do |category| %>
+				  <li><%= link_to category.name, category_posts_path(category) %></li>
+				<% end %>
+				</ul>
+      </div>
+      <div class="tags">
+        <h3><%= t "tags"%></h3>
+				<ul>
+				<% tags = Post.tag_counts_on(:tags) %>
+				<% tag_cloud(tags, %w(css1 css2 css3 css4)) do |tag, css_class| %>
+				  <li><span><%= link_to tag.name, tag_posts_path(:tag => tag.id), :class => css_class %></span></li>
+				<% end %>
+				</ul>
+      </div>
+          <div class="most_read">
+        <h3><%= t "newest"%></h3>
+				<% most_recents = Post.where(:published => true).order("published_at DESC").limit(5) %>
+        <ul>
+					<% most_recents.each do |post| %>
+						<li><%= link_to post.title, author_post_path(post.user, post) %></li>
+					<% end %>
+        </ul>
+      </div>
+      <div class="last_authors">
+        <h3><%= t "allusers"%></h3>
+        <ul>
+					<% @sorted_authors.each do |h| %>
+          <% author = h[:user]%>
+	          <li>
+	            <div class="avatar">
+								<% unless author.photo_file_name %>
+	              	<div class="empty"><img src="/assets/images/avatar_empty.png" width="33" height="34" alt="empty" /></div>
+								<% else %>
+									<div class="empty"><img src="<%= author.photo.url %>" width="33" height="34" alt="empty" /></div>
+								<% end %>
+	            </div>
+              <div class="author_info"> <span class="name"><%= link_to author.name, author_posts_path(author)%></span> <%= link_to (t "allposts"), author_posts_path(author), :class => "all" %></div>
+	          </li>
+					<% end %>
+				</ul>
+      </div>
+    </div>
+
+    </div>
+    <div class="footer">
+    <p>Copyright © 2011 Yeni Hayat Bilişim Teknolojileri A.Ş.</p>
+    </div>
+	</div>  
+</div>
+</body>  
+</html>

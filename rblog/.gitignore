@@ -1,0 +1,12 @@
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
+public/photos/**/*
+.sass-cache/*
+.rvmrc
+.redcar/*
+.idea/*
+config/database.yml
+Gemfile.lock
+
