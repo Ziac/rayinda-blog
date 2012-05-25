@@ -9,7 +9,7 @@ gem 'mysql2'
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'acts-as-taggable-on'
-gem 'twitter-bootstrap-rails'
+gem 'simple_form'
 
 # gem 'rails3-jquery-autocomplete'
 # gem 'paperclip'
@@ -22,6 +22,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'therubyracer', :platform => :ruby
   gem 'uglifier', '>= 1.0.3'
+  gem 'twitter-bootstrap-rails'
 end
 
 # To use ActiveModel has_secure_password

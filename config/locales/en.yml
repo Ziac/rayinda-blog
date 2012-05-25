@@ -2,4 +2,7 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  general:
+    footer_note: "Copyright © 2011 Yeni Hayat Bilişim Teknolojileri A.Ş."
+    back_to_top: "Back to top"
   hello: "Hello world"
