@@ -1,8 +1,0 @@
-<div class="panel"><%= t "admin dashboard"%>
-  <div class="panel-content">
-    <%= link_to (t "general.allposts", :count => Post.count.to_s), admin_posts_path %> |
-    <%= link_to (t "general.allusers", :count => User.count.to_s), admin_users_path %> |
-    <%= link_to (t "general.allcategories", :count => Category.count.to_s), admin_categories_path %>
-  </div>
-</div>
-

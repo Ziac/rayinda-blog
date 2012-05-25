@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Yhblog::Application.load_tasks
+RayindaBlog::Application.load_tasks
