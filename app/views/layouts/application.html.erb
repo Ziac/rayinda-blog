@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="text/javascript">
     $("#login").click(function() {
-      $("#email").focus();
+      $("input #email").live().focus();
     });
   </script>
 </head>  
@@ -27,20 +27,13 @@
             <li><%= link_to (t "general.homepage"), root_path%></li>
             <li><%= link_to "About", about_path %></li>
             <li><%= link_to "Contact", contact_path %></li>
-            <% if current_user %>
-            <li><%= link_to "Dashboard", user_dashboard_path %></li>
-            <% end %>
+          </ul>
+          <ul class="nav pills pull-right">
             <% if current_user %>
             <li><%= link_to (t "general.logout"), log_out_path %> </li>
             <% else %>
-            <li><%= link_to (t "general.login"), log_in_path %> </li>
-            <% end %>
-          </ul>
-          <form class="navbar-search pull-left">
-            <input type="text" class="search-query" placeholder="Search">
-          </form>
-          <ul class="nav pills pull-right">
             <li><%= link_to("Login", "#myModal", "data-toggle" => "modal", :id => "login") %></li>
+            <% end %>
           </ul>
         </div>
       </div>

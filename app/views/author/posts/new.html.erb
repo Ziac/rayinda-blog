@@ -1,16 +1,7 @@
-<script type="text/javascript" >
-    $(document).ready(function() {
-      $("#markItUp").markItUp(markDownSettings);
-      $("#markItUp_spot").markItUp(htmlSettings);
-    });
-  
-</script>
-<div class="panel">
-  <%= form_for(@post, :url => author_myposts_path) do |f| %>
+<%= simple_form_for(@post, :url => author_myposts_path) do |f| %>
   <% if @post.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
       <ul>
       <% @post.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -18,37 +9,32 @@
       </ul>
     </div>
   <% end %>
-  <div class="panel-title">
-    <%= f.label t "category" %><br />
-    <%= f.select :category_id, options_from_collection_for_select(@available_categories, 'id', 'name') %>
+  <%= f.input :title, :input_html => { :class => "span8" }, :placeholder => "Title", :label => false %>
+  <%= f.association :category, :class => "span6" %>
+  <%= f.input :tag_list, :input_html => { :class => "span8" }, :placeholder => "Tag List", :label => false %>
+  <%#= f.input :spot, :id => "markItUp_spot", :input_html => { :class => "span8", :rows => "10" }, :placeholder => "Spot", :label => false %>
+  <div class="wmd-panel">
+    <div id="wmd-button-bar"></div>
+    <%= f.input :spot, :input_html => {:id => "wmd-input", :class => "wmd-input span8", :rows => "10" }, :placeholder => "Spot", :label => false %>
+  <div id="wmd-preview" class="wmd-panel wmd-preview span8 prettyprint"></div>
   </div>
-  <div class="panel-title">
-    <%= f.label t "title" %><br />
-    <%= f.text_field :title %>
+  <div class="wmd-panel">
+    <div id="wmd-button-bar-second"></div>
+    <%= f.input :body, :input_html => {:id => "wmd-input-second", :class => "wmd-input span8" }, :placeholder => "Body", :label => false %>
+  <div id="wmd-preview-second" class="wmd-panel wmd-preview span8 prettyprint"></div>
   </div>
-  <div class="panel-title">
-    <%= f.label t "post" %><br />
-    <div class="markDownEdit">
-      <%= f.text_area :body, :id => "markItUp" %>
-    </div>
-  </div>
-  <div class="panel-title">
-    <%= f.label t "spot" %><br />
-    <%= f.text_area :spot, :id => "markItUp_spot" %>
-  </div>
-  <div class="panel-title">
-    <%= f.label t "tags" %><br />
-    <%= f.text_field :tag_list %>
-  </div>
-  <div class="panel-title">
-    <%= f.label t "published" %>
-    <%= f.check_box :published %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-  <% end %>
-  <div class="panel-content">
-  <%= link_to (t "general.back"), author_myposts_path %>
-  </div>
-</div>
+  <%= f.input :published %>  
+  <%= f.submit :class => 'btn-primary' %>  
+<% end %>
+<%= link_to (t "general.back"), author_myposts_path, :class => "btn btn-danger" %>
+
+<script type="text/javascript" >
+  $(document).ready(function() {
+     var converter1 = Markdown.getSanitizingConverter();
+     var editor1 = new Markdown.Editor(converter1);
+     editor1.run();
+     var converter2 = Markdown.getSanitizingConverter();
+     var editor2 = new Markdown.Editor(converter2, "-second");
+     editor2.run();
+  });
+</script>

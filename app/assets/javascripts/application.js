@@ -14,3 +14,6 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require bootstrap
+//= require Markdown.Converter
+//= require Markdown.Editor
+//= require Markdown.Sanitizer
