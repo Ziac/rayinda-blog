@@ -1,40 +1,35 @@
-<div class="articles">
-  <div class="article">
-	  <div class="article-title">
-      <span class="article_cat"><%= link_to @post.category.try(:name), category_posts_path(@post.category) %></span>
-	    <h2><%= @post.title %></h2>
-	  </div>
-		<div class="article-content">
-		  <p>
-		  <%= markdown(@post.rendered_body) %>
-		  </p>
-		</div>
-        <div class="article-cdt">
-			<div class="date"><%= @post.published_at.try(:strftime, '%d-%m-%y') %></div>
-			<div class="tag">
-        <ul>
-        <% @post.tags.each do |tag|%>
-            <li>
-            <%= link_to tag.name, tag_posts_path(:tag => tag.name) %>
-            </li>
-        <% end %>
-      </ul></div>
-          <div class="author"><%= link_to @post.user.name, author_posts_path(@post.user_id), :class => "au" %></div>
-          <span class="article-comment"><%= link_to (t "general.add", :class => (t "comment").downcase), author_post_path(@post.user, @post) %></span>
-	  </div>
-
-    
-
-
-</div>
- <div class="admlinks">
-   <ul>
-    <li><%= link_to (t "general.edit"), edit_admin_post_path(@post) %></li>
-    <li><%= link_to (t "general.back"), admin_posts_path %></li>
-    <li><%= link_to (t "general.destroy"), admin_post_path(@post),confirm: (t "general.Are you sure"),
-            :method => :delete %></li>
- </ul>
- </div>
+<%- model_class = @post.class -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
 </div>
 
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:title) %>:</strong></dt>
+  <dd><%= @post.title %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:body) %>:</strong></dt>
+  <dd><%= @post.body %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:rendered_body) %>:</strong></dt>
+  <dd><%= @post.rendered_body %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:user_id) %>:</strong></dt>
+  <dd><%= @post.user_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:published) %>:</strong></dt>
+  <dd><%= @post.published %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:published_at) %>:</strong></dt>
+  <dd><%= @post.published_at %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:category_id) %>:</strong></dt>
+  <dd><%= @post.category_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:spot) %>:</strong></dt>
+  <dd><%= @post.spot %></dd>
+</dl>
 
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              admin_posts_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_admin_post_path(@post), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              admin_post_path(@post),
+              :method => 'delete',
+              :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
+              :class => 'btn btn-danger' %>
+</div>

@@ -10,9 +10,9 @@ gem 'jquery-rails'
 gem 'kaminari'
 gem 'acts-as-taggable-on'
 gem 'simple_form'
-
+gem 'paperclip'
+gem 'ckeditor', '3.7.1'
 # gem 'rails3-jquery-autocomplete'
-# gem 'paperclip'
 
 
 # Gems used only for assets and not required

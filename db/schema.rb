@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120519194516) do
+ActiveRecord::Schema.define(:version => 20120527144841) do
+
+  create_table "access_rules", :force => true do |t|
+    t.integer "permission_id"
+    t.integer "role_id"
+    t.integer "role_type",     :default => 0
+  end
+
+  add_index "access_rules", ["permission_id"], :name => "index_access_rules_on_permission_id"
+  add_index "access_rules", ["role_id"], :name => "index_access_rules_on_role_id"
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -19,12 +28,34 @@ ActiveRecord::Schema.define(:version => 20120519194516) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "ckeditor_assets", :force => true do |t|
+    t.string   "data_file_name",                  :null => false
+    t.string   "data_content_type"
+    t.integer  "data_file_size"
+    t.integer  "assetable_id"
+    t.string   "assetable_type",    :limit => 30
+    t.string   "type",              :limit => 30
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
+  add_index "ckeditor_assets", ["assetable_type", "assetable_id"], :name => "idx_ckeditor_assetable"
+  add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], :name => "idx_ckeditor_assetable_type"
+
   create_table "comments", :force => true do |t|
     t.text     "body"
     t.integer  "post_id"
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "permissions", :force => true do |t|
+    t.string "name"
+    t.string "controller"
+    t.string "action"
   end
 
   create_table "posts", :force => true do |t|
@@ -39,6 +70,20 @@ ActiveRecord::Schema.define(:version => 20120519194516) do
     t.integer  "category_id"
     t.text     "spot"
   end
+
+  create_table "roles", :force => true do |t|
+    t.string "title"
+  end
+
+  create_table "roles_users", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
+  add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false

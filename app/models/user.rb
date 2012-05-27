@@ -2,10 +2,9 @@ class User < ActiveRecord::Base
   
   has_secure_password
 
-  #  Paperclip gemi için düzenlenmiş. Burası Carriervawe olacak
-  # has_attached_file :photo, :style => { :thumb=> "100x100#", :small => "150x150>", :medium => "300x300>", :large => "400x400>" },
-  #   :url => "/:attachment/:id/:style/:basename.:extension",
-  #   :path => ":rails_root/public/:attachment/:id/:style/:basename.:extension"
+  has_attached_file :photo, :style => { :thumb=> "100x100#", :small => "150x150>", :medium => "300x300>", :large => "400x400>" },
+    :url => "/:attachment/:id/:style/:basename.:extension",
+    :path => ":rails_root/public/:attachment/:id/:style/:basename.:extension"
     
   attr_accessible :email, :password, :password_confirmation, :first_name, :last_name, :author, :admin, :photo
   
